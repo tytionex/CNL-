@@ -11,7 +11,7 @@ Open and display multiple files
 # FROM: https://github.com/brainglobe/morphapi/blob/master/examples/visualise/visualise_swc.py
 
 
-@author: jmbouteiller
+@author: tchen
 """
 #%% INITIALIZATION OF PATH 
 
@@ -51,7 +51,8 @@ currentPath = os.getcwd()
 print ("current path is: " + currentPath)
 
 #%% Calculate Total Points in a singular SWC file
-#loops through the entire SWC file and counts the lines
+# loops through the entire SWC file and counts the lines
+# Note: make sure that there is only ONE SWC file in the input directory
 
 # Change working directory to the directory where this script is located
 # Change working directory to the directory where this script is located
@@ -87,8 +88,9 @@ totalPoints = points;
 # This cell modifies one SWC files in an input directory 
 # It takes a percentage of the inital points in SWC file 
 # and creates a new SWC file
-# the script writes the new files into an output directory
-# the current cell produces 0.1% increments'''
+# The script writes the new files into an output directory
+# The cell produces 0.1% increments of the original file
+# Note: make sure to clear the output folder if the number of outputted frames is different'''
 
 modifySWC = True
 inputPath = os.path.join (currentPath , inputDir)
@@ -151,13 +153,6 @@ for x in range(1000):
 # The final SWC rendered is the last file read in
 # Note: the rendered should be blank
 '''
-from vedo import Plotter
-
-from morphapi.morphology.morphology import Neuron
-import os
-
-#inputDir = "Axons_Tianyuan"
-#outputDir = "Axons_Tianyuan_modified"
 
 # Instanciate empty plotter object
 vp = Plotter(shape=(1, 1), axes=0, resetcam = True)
@@ -208,12 +203,12 @@ for dirs, subdirs, files in os.walk(outputPath):
 
 vp.show(interactive=True)   
 
-#%% Visualization of 1 cells with VEDO 
+#%% Visualization of 1 cells with VEDO with modified camera
 '''
 Renders SWC at a specific camera angle
 '''
 
-fp = "connected_3D_points_0_small.swc"
+fp = "new_connected_3D_points_3_small.swc"
 fileName = fp
 
 # Create vedo actors from the .swc file
@@ -255,7 +250,9 @@ else:
 
 '''
 Initally renders a sample SWC file to set the camera angle (sharecam = True)
-After exiting out of vedo render, the snap shots will be created
+After exiting out of vedo render, the snap shots will be created with chosen camera
+Note: the file must be rendered before creating snapshots
+    Vedo does not have an option to set the camera without rendering first
 '''
 
 # Create vedo actors from the .swc file
@@ -273,11 +270,6 @@ components, neuron = neuron.create_mesh(
 vp = Plotter(shape=(1, 1), axes=0, resetcam = True, sharecam = True)
 
 vp.add(neuron, render= True)
-cam_1 = dict(pos=(2460, 9621, 9093),
-           focalPoint=(2954, 5932, 2163),
-           viewup=(0.09178, -0.8762, 0.4731),
-           distance=7866,
-           clippingRange=(5480, 1.091e+4))
 
 vp.show(interactive=True, camera= cam_1)
 vp.screenshot(filename='test_screenshot.png', scale=None)
