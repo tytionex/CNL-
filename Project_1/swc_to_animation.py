@@ -146,6 +146,8 @@ for x in range(1000):
     
     else:
         print("User slected to NOT modify the SWC files")
+#@todo NEED to generalize formula for amount of frames produced
+
 #%% LOOP ON MUltiple SWC
 '''
 # Use to test files
