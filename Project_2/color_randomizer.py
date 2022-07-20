@@ -34,8 +34,8 @@ import os
 """
 
 save= False
-inputDir = "Axons_Tianyuan"
-outputDir = "Axons_Tianyuan_modified"
+inputDir = "color_original"
+outputDir = "color_modified"
 
 
 #fp = "examples/example_files/example1.swc"
@@ -54,12 +54,12 @@ print ("current path is: " + currentPath)
 to soma so that the neuron becomes a valid neuron and may be displayed   
 (the rendered will throw an error if there is no soma)
 
-# CELL DESCRIPTION:
-# This cell modifies all SWC files in an input directory to specify that the 
-# section located in the first line of the file is converted into a soma (not an axon) 
-# (Basically replaces '2' (axon) with a '1' (soma))
-# And writes new files into an output directory
-# Note: This step is time consuming and only needs to be done once! '''
+#   CELL DESCRIPTION:
+#   This cell modifies all SWC files in an input directory to specify that the 
+#   section located in the first line of the file is converted into a soma (not an axon) 
+#   (Basically replaces '2' (axon) with a '1' (soma))
+#   And writes new files into an output directory
+#   Note: This step is time consuming and only needs to be done once! '''
 
 modifySWC = False
 inputPath = os.path.join (currentPath , inputDir)
@@ -125,44 +125,21 @@ else:
     print("User slected to NOT modify the SWC files")
 
 #%% Color randomizer
-from random import randint
-numberOfAxons = 3
-color = ["darkseagreen",
-         "darkblue", 
-         "navy", 
-         "midnightblue", 
-         "dodgerblue", 
-         "lightseagreen",
-         "cadetblue",
-         "skyblue",
-         "lightblue",
-         "cornflowerblue",
-         "rebeccapurple",
-         "darkred",
-         "darkmagenta",
-         "plaeturquoise",
-         "greenyellow",
-         "thistle",
-         "orchid",
-         "goldenrod",
-         "palevioletred",
-         "powerderblue",
-         "slateblue",
-         "olivedrab",
-         "limegreen",
-         "seagreen",
-         "teal",
-         "saddlebrown",
-         "firebrick",
-         "darkseagreen"]
-#randomColor = randint(0, 28)
-#print(randomColor)
-indexList = random.sample(range(100), numberOfAxons)
-print(indexList)
-#%% Color randomizer
+'''
+Randomized colors for different axons (an array of predetermined color outputs)
+
+This is where the colors are from:
+https://matplotlib.org/stable/gallery/color/named_colors.html
+
+#   The colors pulled from matplotlib 
+#   In "numberOfAxon", you can change the number of Axons that are rendered
+#   The cell creates an array of random numbers that will be referenced in the next cell
+#   The random function is called so that no duplicate numbers are generated
+'''
 from random import randint
 import random
-numberOfAxons = 3
+
+numberOfAxons = 5
 color = ["aliceblue",
     "antiquewhite",
     "aqua",
@@ -304,9 +281,21 @@ color = ["aliceblue",
     "yellowgreen"]
 #randomColor = randint(0, 28)
 #print(randomColor)
-indexList = random.sample(range(50), numberOfAxons+1)
+indexList = random.sample(range(138), numberOfAxons+1)
 print(indexList)
 #%% LOOP ON MUltiple SWC
+
+'''
+This renders multiple swc files into one. The axons will each have a different
+color. 
+
+#
+
+#Note: Line 317 is for mac users. There is a problem with generating .DS files
+when reading in the swc files. This line skips any .DS files that happend to 
+appear accidentally. 
+
+'''
 
 from vedo import Plotter
 from morphapi.morphology.morphology import Neuron
@@ -332,12 +321,9 @@ for dirs, subdirs, files in os.walk(outputPath):
     nbOfFiles = 0
     #Loop on all files
     for file in files:
-        # Keep track of the number of neurons imported
         if file.startswith('.DS'):
-            print('hi\n')
             continue
-        #nbOfFiles = nbOfFiles + 1
-        if (nbOfFiles < numberOfAxons+1):
+        if (nbOfFiles < numberOfAxons):
             # Retrieve file name
             fname = os.path.join(outputPath, file)
             print ("file = ", file)
@@ -353,14 +339,8 @@ for dirs, subdirs, files in os.walk(outputPath):
                 whole_neuron_color=indexList[nbOfFiles],
             )
             vp.add(neuron, render= True, resetcam=True)
+        # Keep track of the number of neurons imported
         nbOfFiles = nbOfFiles + 1
 vp.show(interactive=True)   
-
-#@todo MUST CHANGE COLOR FOR EACH CELL (use random colors)!
-
-
-
-
-
-
+#vp.screenshot(filename='example_screenshot.png', scale=None)
 
