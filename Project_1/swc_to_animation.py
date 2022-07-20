@@ -153,6 +153,7 @@ for x in range(1000):
 # Use to test files
 # The cell loads different swc files and takes snap shots for every generated swc file
 # The final SWC rendered is the last file read in
+# The screenshots producted will appear in the Project_1 file
 # Note: the rendered should be blank
 '''
 

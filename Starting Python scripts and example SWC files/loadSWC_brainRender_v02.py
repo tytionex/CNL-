@@ -423,6 +423,8 @@ vp.show(interactive=True)
 
 #%% Color randomizer
 from random import randint
+import random
+numberOfAxons = 10
 color = ["darkseagreen",
          "darkblue", 
          "navy", 
@@ -452,7 +454,9 @@ color = ["darkseagreen",
          "firebrick",
          "darkseagreen"]
 randomColor = randint(0, 28)
+indexList = random.sample(range(100), numberOfAxons)
 print(randomColor)
+print(indexList)
 #%% Visualization of 1 cells with VEDO 
 '''
 This is an attempt at loading two cells in the renderer. 
