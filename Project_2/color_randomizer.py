@@ -125,17 +125,15 @@ else:
     print("User slected to NOT modify the SWC files")
 
 #%% Color randomizer
-'''
-Randomized colors for different axons (an array of predetermined color outputs)
+''' Randomized colors for different axons (an array of predetermined color outputs)
 
 This is where the colors are from:
 https://matplotlib.org/stable/gallery/color/named_colors.html
 
 #   The colors pulled from matplotlib 
-#   In "numberOfAxon", you can change the number of Axons that are rendered
-#   The cell creates an array of random numbers that will be referenced in the next cell
-#   The random function is called so that no duplicate numbers are generated
-'''
+#   In "numberOfAxon", you can change the number of Axons that are rendered (REQUIRED)
+#   The cell creates an array of random numbers that will be referenced in the next script cell
+#   The random function is called so that no duplicate numbers are generated in the created array'''
 from random import randint
 import random
 
@@ -285,17 +283,14 @@ indexList = random.sample(range(138), numberOfAxons+1)
 print(indexList)
 #%% LOOP ON MUltiple SWC
 
-'''
-This renders multiple swc files into one. The axons will each have a different
+''' This renders multiple swc files into one. The axons will each have a different
 color. 
 
-#
-
-#Note: Line 317 is for mac users. There is a problem with generating .DS files
-when reading in the swc files. This line skips any .DS files that happend to 
-appear accidentally. 
-
-'''
+# Note: Line 317 is for mac users. There is a problem with generating .DS files
+# when reading in the swc files. This line skips any .DS files that happend to 
+# appear accidentally. 
+# The created array with random numbers are referenced each loop and each index value corresponds 
+# to an index from the array of colors. '''
 
 from vedo import Plotter
 from morphapi.morphology.morphology import Neuron
@@ -331,8 +326,8 @@ for dirs, subdirs, files in os.walk(outputPath):
     
             neuron = Neuron(data_file= fname)
             components, neuron = neuron.create_mesh(
-                neurite_radius=3,  #
-                soma_color="salmon",  #@todo Specify different colors for different cells [see vedo.colors for more details]
+                neurite_radius=3,  
+                soma_color="salmon",  
                 apical_dendrites_color="blackboard",
                 basal_dendrites_color="orangered",
                 axon_color="darkseagreen",
