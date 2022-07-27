@@ -36,6 +36,7 @@ import os
 save= False
 inputDir = "orig_swc_file"
 outputDir = "new_swc_file"
+#Name of the single File in the inputDir REQUIRED
 singleFile = "connected_3D_points_0.swc"
 
 
@@ -82,7 +83,7 @@ print('Total lines in SWC file', points);
 totalPoints = points;
 
 #%%     : 
-''' This cell creates new swc files and outputs percentages of the origianl (eg 1% - 100%)
+''' This cell creates new swc files and outputs percentages of the origianl (eg 0.1% - 100%)
 
 # CELL DESCRIPTION:
 # This cell modifies one SWC files in an input directory 
@@ -189,11 +190,11 @@ for dirs, subdirs, files in os.walk(outputPath):
             neuron = Neuron(data_file= fname)
             components, neuron = neuron.create_mesh(
                 neurite_radius=3,  #
-                soma_color="salmon",  #@todo Specify different colors for different cells [see vedo.colors for more details]
+                soma_color="salmon",  
                 apical_dendrites_color="blackboard",
                 basal_dendrites_color="orangered",
                 axon_color="darkseagreen",
-                whole_neuron_color="darkseagreen",#"blackboard",
+                whole_neuron_color="darkseagreen",
             )
             vp.add(neuron, render= True, resetcam=True)
             # under the screenshot function: https://vedo.embl.es/autodocs/content/vedo/plotter.html#vedo.plotter.Plotter.screenshot
@@ -208,7 +209,7 @@ vp.show(interactive=True)
 
 #%% Visualization of 1 cells with VEDO with modified camera
 '''
-Renders SWC at a specific camera angle
+# Renders SWC at a specific camera angle
 '''
 
 fp = "new_connected_3D_points_3_small.swc"
@@ -249,13 +250,13 @@ if (save):
 else:
     print ("SAVE option is False. Mesh is not saved as X3D file")
     
-#%% LOOP ON MUltiple SWC
+#%% LOOP ON MUltiple SWC and Screen Shots indiviudal swc files
 
 '''
-Initally renders a sample SWC file to set the camera angle (sharecam = True)
-After exiting out of vedo render, the snap shots will be created with chosen camera
-Note: the file must be rendered before creating snapshots
-    Vedo does not have an option to set the camera without rendering first
+# Initally renders a sample SWC file to set the camera angle (sharecam = True)
+# After exiting out of vedo render, the snap shots will be created with chosen camera
+# Note: the file must be rendered before creating snapshots
+# Vedo does not have an option to set the camera without rendering first
 '''
 
 # Create vedo actors from the .swc file
@@ -310,8 +311,8 @@ for dirs, subdirs, files in os.walk(outputPath):
     
             neuron = Neuron(data_file= fname)
             components, neuron = neuron.create_mesh(
-                neurite_radius=3,  #
-                soma_color="salmon",  #@todo Specify different colors for different cells [see vedo.colors for more details]
+                neurite_radius=3,  
+                soma_color="salmon",  
                 apical_dendrites_color="blackboard",
                 basal_dendrites_color="orangered",
                 axon_color="darkseagreen",
@@ -324,10 +325,8 @@ for dirs, subdirs, files in os.walk(outputPath):
         # Keep track of the number of neurons imported
         nbOfFiles = nbOfFiles + 1
         
-#checks if .ds files are present
+#checks if .ds files are present (mac only)
 print('.dsfiles =' + str(count))
-#vp.show(interactive=True, camera = cam_1)   
-
-#@todo MUST CHANGE COLOR FOR EACH CELL (use random colors)!
+#vp.show(interactive=True, camera = cam_1)
 
 
