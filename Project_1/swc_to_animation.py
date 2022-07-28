@@ -133,9 +133,75 @@ for x in range(1000):
             #os.makedirs(outputPath)
             os.mkdir(outputPath)
             print("The new directory is created!")
-        percent = (x+1)/10    
+        percent = (x+1)/10   
         # Define new file name
         newfname = "new_" + str(percent)+"_" + os.path.basename(fname)
+        # Create new file handle
+        newfile = os.path.join(outputPath, newfname)
+        
+        fout = open(newfile, "w")
+        fout.write(replacement)
+        fout.close()
+                
+        print("done with SWC file " + str(percent) + "% of original")
+    
+    else:
+        print("User slected to NOT modify the SWC files")
+#@todo NEED to generalize formula for amount of frames produced
+#%%
+''' This cell creates new swc files and outputs percentages of the origianl (eg 0.01% - 100%)
+
+# CELL DESCRIPTION:
+# This cell modifies one SWC files in an input directory 
+# It takes a percentage of the inital points in SWC file 
+# and creates a new SWC file
+# The script writes the new files into an output directory
+# The cell produces 0.1% increments of the original file
+# Note: make sure to clear the output folder if the number of outputted frames is different'''
+
+modifySWC = True
+inputPath = os.path.join (currentPath , inputDir)
+outputPath = os.path.join (currentPath , outputDir)
+
+#1000 snapshots are created
+for x in range(10000):
+    if (modifySWC):
+        #print("User selected to modify the first section of the SWC file into SOMA type")
+        #print ("Initial files will be read from " + inputPath)
+        #print ("Modified files will be saved in " + outputPath)
+        
+        # Retrieve file name
+        fname = os.path.join(currentPath, inputDir, singleFile)
+        #print ("file = ", file)
+    
+        # Open file
+        file = open(fname, "r")
+        replacement = ""
+        a = (totalPoints*((x+1)/10000))
+        a = int(a)
+        for i,line in enumerate(file):
+            
+            if (i < a):
+                replacement = replacement + line
+            else:
+                break
+    
+        file.close()
+        # opening the new file in write mode
+        
+        #Make directory if it does NOT exist
+        # Check whether the specified path exists or not
+        isExist = os.path.exists(outputPath)
+        #If it does NOT exist, create it:
+        if not isExist:
+            print("Directory for modified SWC does NOT exist...")
+            # Create a new directory because it does not exist 
+            #os.makedirs(outputPath)
+            os.mkdir(outputPath)
+            print("The new directory is created!")
+        percent = (x+1)/100    
+        # Define new file name
+        newfname = str(percent)+".swc"
         # Create new file handle
         newfile = os.path.join(outputPath, newfname)
         
@@ -198,14 +264,14 @@ for dirs, subdirs, files in os.walk(outputPath):
             )
             vp.add(neuron, render= True, resetcam=True)
             # under the screenshot function: https://vedo.embl.es/autodocs/content/vedo/plotter.html#vedo.plotter.Plotter.screenshot
-            vp.screenshot(filename= str(nbOfFiles)+'_screenshot.png', scale=None)
+            vp.screenshot(filename= str(nbOfFiles)+'.png', scale=None)
             # clear funciton under plotter: https://vedo.embl.es/autodocs/content/vedo/plotter.html#vedo.plotter.Plotter.clear
             vp.clear()
         # Keep track of the number of neurons imported
         nbOfFiles = nbOfFiles + 1
 
 
-vp.show(interactive=True)   
+#vp.show(interactive=True)   
 
 #%% Visualization of 1 cells with VEDO with modified camera
 '''
@@ -303,7 +369,7 @@ for dirs, subdirs, files in os.walk(outputPath):
             print("error with '.DS' file")
             count = count+1
             continue
-        if (nbOfFiles < 3):
+        if (nbOfFiles < 10000):
             # Retrieve file name
             fname = os.path.join(outputPath, file)
             print ("file = ", file)
@@ -316,7 +382,7 @@ for dirs, subdirs, files in os.walk(outputPath):
                 apical_dendrites_color="blackboard",
                 basal_dendrites_color="orangered",
                 axon_color="darkseagreen",
-                whole_neuron_color="limegreen",#"blackboard",
+                whole_neuron_color="limegreen",
             )
             
             vp.add(neuron, render= True, resetcam= False)
